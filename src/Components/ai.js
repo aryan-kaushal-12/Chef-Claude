@@ -11,7 +11,8 @@ export async function getRecipeFromMistral(ingredientsArr) {
     });
 
     if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Server error ${response.status}: ${errorData.error || "Unknown"}`);
     }
 
     const data = await response.json();
