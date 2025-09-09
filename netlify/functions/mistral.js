@@ -23,7 +23,7 @@ exports.handler = async (event) => {
     }
 
     const response = await hf.chatCompletion({
-      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      model: "mistralai/Mixtral-8x7B-v0.1",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: `I have ${ingredients.join(", ")}. Suggest a recipe!` },
