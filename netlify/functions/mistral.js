@@ -26,19 +26,20 @@ exports.handler = async (event) => {
       model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        {
-          role: "user",
-          content: `I have ${ingredients.join(", ")}. Suggest a recipe!`,
-        },
+        { role: "user", content: `I have ${ingredients.join(", ")}. Suggest a recipe!` },
       ],
       max_tokens: 1024,
     });
 
+    // Log response to check structure
+    console.log("HF Response:", response);
+
+    // Use correct property depending on HF response
+    const recipe = response.choices?.[0]?.message?.content || response.generated_text || "No response";
+
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        recipe: response.choices[0].message.content,
-      }),
+      body: JSON.stringify({ recipe }),
     };
   } catch (err) {
     console.error("Mistral Function Error:", err.message);
